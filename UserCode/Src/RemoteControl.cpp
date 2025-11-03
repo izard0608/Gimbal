@@ -20,7 +20,7 @@ void RemoteControl::update_signal_tick()
     signal_tick = HAL_GetTick();
 }
 
-void RemoteControl::get_rx_data(uint8_t * rx_buf)
+void RemoteControl::get_rx_data(const uint8_t * rx_buf)
 {
     for(int i = 0; i < 18; ++i) {
         rx_data[i] = rx_buf[i];

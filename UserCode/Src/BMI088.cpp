@@ -2,8 +2,9 @@
 // Created by Izard on 2025/11/3.
 //
 #include "BMI088.h"
+#include "main.h"
 #include "spi.h"
-#include "tim.h"
+#include "stm32f4xx_hal_spi.h"
 
 void bmi088_init() {
     // Soft Reset ACCEL

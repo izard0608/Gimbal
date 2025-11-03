@@ -13,7 +13,7 @@ public:
     bool get_connection_status() const;
     void handle();
     void update_signal_tick();
-    void get_rx_data(uint8_t * rx_buf);
+    void get_rx_data(const uint8_t * rx_buf);
 private:
     unsigned char rx_data[20] = {};
     struct RcData
