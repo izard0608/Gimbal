@@ -61,6 +61,6 @@
 - IMU相关参数cubeMX配完（SPI1，GPIO）
 ### Pending（基础框架part）
 - 框图绘制，列出所需的TIMER、CAN、DMA等资源并计算频率
-- cubeMX配置（CAN（电机）、SPI（IMU）、TIMER、Watchdog）
+- cubeMX配置（CAN（电机）、TIMER、Watchdog）
 - PID，电机父类的移植和接口设计，根据用到的电机型号的datasheet和user manual设计电机子类
 - RTOS在keil的配置
