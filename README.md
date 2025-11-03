@@ -72,8 +72,11 @@
 - 从以前的仓库移植了RC和IMU的代码，稍微重构了一下
 - RC相关参数cubeMX已配完（USART3，DMA）
 - IMU相关参数cubeMX配完（SPI1，GPIO）
+- PID类已移植
+- Motor父类完成构建，需要检查
+- 配了一个电机的CAN，剩下的需要看到硬件再配
 ### Pending（基础框架part）
 - 框图绘制，列出所需的TIMER、CAN、DMA等资源并计算频率
-- cubeMX配置（CAN（电机）、TIMER、Watchdog）
-- PID，电机父类的移植和接口设计，根据用到的电机型号的datasheet和user manual设计电机子类
+- cubeMX配置（TIMER、Watchdog）
+- 根据用到的电机型号的datasheet和user manual设计电机子类
 - RTOS在keil的配置
