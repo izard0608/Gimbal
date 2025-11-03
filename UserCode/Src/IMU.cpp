@@ -4,7 +4,7 @@
 
 #include "../Inc/IMU.h"
 #include <ctgmath>
-#include "bmi088.h"
+#include "BMI088.h"
 extern "C" {
 #include "MahonyAHRS.h"
 }

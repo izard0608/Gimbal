@@ -1,7 +1,7 @@
 //
 // Created by Izard on 2025/11/3.
 //
-#include "bmi088.h"
+#include "BMI088.h"
 #include "spi.h"
 #include "tim.h"
 
