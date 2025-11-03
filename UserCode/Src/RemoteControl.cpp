@@ -1,0 +1,47 @@
+//
+// Created by Izard on 2025/11/3.
+//
+#include "RemoteControl.h"
+
+#include "stm32f4xx_hal.h"
+
+float linear_map(const float x, const float in_min, const float in_max, const float out_min, const float out_max)
+{
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+bool RemoteControl::get_connection_status() const
+{
+    return HAL_GetTick() - signal_tick < 10;
+}
+
+void RemoteControl::update_signal_tick()
+{
+    signal_tick = HAL_GetTick();
+}
+
+void RemoteControl::get_rx_data(uint8_t * rx_buf)
+{
+    for(int i = 0; i < 18; ++i) {
+        rx_data[i] = rx_buf[i];
+    }
+    update_signal_tick();
+}
+
+void RemoteControl::handle()
+{
+    rc.ch0 = (rx_data[0] | rx_data[1] << 8) & 0x07FF;
+    rc.ch1 = (rx_data[1] >> 3 | rx_data[2] << 5) & 0x07FF;
+    rc.ch2 = (rx_data[2] >> 6 | rx_data[3] << 2 | rx_data[4] << 10) & 0x07FF;
+    rc.ch3 = (rx_data[4] >> 1 | rx_data[5] << 7) & 0x07FF;
+
+    rc.s1 = ((rx_data[5] >> 4) & 0x000C) >> 2;
+    rc.s2 = (rx_data[5] >> 4) & 0x0003;
+    rc.sw1 = static_cast<RcData::Sw>(rc.s1);
+    rc.sw2 = static_cast<RcData::Sw>(rc.s2);
+
+    rc.LeftAxisX = linear_map(rc.ch2, 364, 1684, -1, 1);
+    rc.LeftAxisY = linear_map(rc.ch3, 364, 1684, -1, 1);
+    rc.RightAxisX = linear_map(rc.ch0, 364, 1684, -1, 1);
+    rc.RightAxisY = linear_map(rc.ch1, 364, 1684, -1, 1);
+}
