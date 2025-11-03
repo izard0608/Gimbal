@@ -1,17 +1,26 @@
 # 资源参数
 ## 时钟树
-- HCLK：168MHz
-- APB1 Timer: 84MHz
-- APB2 Timer: 168MHz
-## TIMER
-### TIM7
+- HCLK(MHz)：168
+- APB1 Timer(MHz): 84
+- APB2 Timer(MHz): 168
+## TIMER(previous)
+### Due to structural change, TIMER-interrupt-based parts may be modified and taken into RTOS threads and controlled with ```osDelay()```.
+### However, these changes will only be adapted after the fundamental framework is established, so the previous TIMER configs are listed here for reference.
+### TIM_RC
 - From: APB1 Timer
 - Purpose: RC USART3 DMA
 - Prescaler: 256 - 1
 - Counter Mode: Up
 - Counter Period: 2625 - 1
-- Frequency: 125Hz
-## RC串口
+- Frequency(Hz): 125
+### TIM_IMU
+- From: APB1 Timer
+- Purpose: IMU SPI1
+- Prescaler: 4 - 1
+- Counter Mode: Up
+- Counter Period: 21000 - 1
+- Frequency(Hz): 1000
+## RC
 ### USART3
 - Baud Rate: 100000 Bits/s
 - Word Length: 9 Bits (including parity)
@@ -24,6 +33,26 @@
 - Request: USART3_RX
 - Direction: Peripheral to Memory
 - Priority: Low
+## IMU
+### SPI1
+- Mode: Full-Duplex Master
+#### Basic params
+- Frame Format: Motorola
+- Data Size: 8 Bits
+- First Bit: MSB First
+#### Clock params
+- Prescaler(for Baud Rate): 256
+- Clock Polarity: High
+- Clock Phase: 2 Edge
+#### Advanced params
+- CRC Calculation: Disabled
+- NSS Signal Type: Software
+### GPIO
+- SPI1_SCK: PB3
+- SPI1_MISO: PB4
+- SPI1_MOSI: PA7
+- CS1_ACCEL: PA4
+- CS1_GYRO: PB0
 # 工作日志
 ## 2025.11.3
 ### 已完成
