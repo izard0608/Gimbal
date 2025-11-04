@@ -76,7 +76,7 @@
 - Motor父类完成构建，需要检查
 - 配了一个电机的CAN，剩下的需要看到硬件再配
 ### Pending（基础框架part）
-- 框图绘制，列出所需的TIMER、CAN、DMA等资源并计算频率
+- 框图绘制，列出所需的TIMER、CAN、DMA等资源
 - cubeMX配置（TIMER、Watchdog）
 - 根据用到的电机型号的datasheet和user manual设计电机子类
 - RTOS在keil的配置
