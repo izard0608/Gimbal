@@ -66,6 +66,10 @@
 ### GPIO
 - ```CAN1_RX```: PD0
 - ```CAN1_TX```: PD1
+## IWDG
+- Countdown time: 1.5s
+- Prescaler: 32
+- Reload value: 1500 - 1
 # 工作日志
 ## 2025.11.3
 ### 已完成  
@@ -83,3 +87,9 @@
 ## 2025.11.4
 ### 已完成
 - 检查了Motor抽象类，修改了一些封装和接口
+- 看门狗配完
+### Pending（基础框架）
+- 框图绘制，列出所需的TIMER、CAN、DMA等资源
+- TIMER的cubeMX配置
+- 设计电机子类，重写CAN读写函数
+- keil里配RTOS
