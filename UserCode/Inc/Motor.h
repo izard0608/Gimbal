@@ -25,6 +25,7 @@ public:
 
     virtual float feedforward_intensity_calc(float current_angle) = 0;
     virtual void parse_can_msg_callback(const uint8_t rx_data[8]) = 0;
+    virtual void write_tx();
 
     void set_position(float target_position, float feedforward_speed, float feedforward_intensity);
     void set_speed(float target_speed, float feedforward_intensity);
@@ -47,6 +48,17 @@ protected:
 
     CAN_RxHeaderTypeDef rx_header_;
     CAN_HandleTypeDef *hcan_ = nullptr;
+
+    uint8_t tx_data_[8] = {};
+    uint32_t can_tx_mailbox_;
+    inline static CAN_TxHeaderTypeDef tx_header_ = {
+        .StdId = 0x200,
+        .ExtId = 0x000,
+        .IDE = CAN_ID_STD,
+        .RTR = CAN_RTR_DATA,
+        .DLC = 8,
+        .TransmitGlobalTime = DISABLE
+    };
 private:
     const float ratio_;
 
@@ -60,17 +72,6 @@ private:
     float feedforward_speed_ = 0;
 
     uint16_t esc_id_ = 0x200;
-
-    uint8_t tx_data_[8] = {};
-    uint32_t can_tx_mailbox_;
-    inline static CAN_TxHeaderTypeDef tx_header_ = {
-        .StdId = 0x200,
-        .ExtId = 0x000,
-        .IDE = CAN_ID_STD,
-        .RTR = CAN_RTR_DATA,
-        .DLC = 8,
-        .TransmitGlobalTime = DISABLE
-    };
 };
 
 #endif //GIMBAL_MOTOR_H

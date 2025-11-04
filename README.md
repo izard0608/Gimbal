@@ -80,3 +80,6 @@
 - cubeMX配置（TIMER、Watchdog）
 - 根据用到的电机型号的datasheet和user manual设计电机子类
 - RTOS在keil的配置
+## 2025.11.4
+### 已完成
+- 检查了Motor抽象类，修改了一些封装和接口

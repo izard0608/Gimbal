@@ -52,7 +52,11 @@ void Motor::handle()
     if ((stop_flag_ != 0u) || fabsf(speed_.feedback) > 6000) {
         output_intensity_ = 0;
     }
-    // CAN Message
+    write_tx();
+}
+
+void Motor::write_tx()
+{
     const uint8_t high_byte = static_cast<int16_t>(output_intensity_) >> 8;
     const uint8_t low_byte = static_cast<int16_t>(output_intensity_) & 0x00FF;
     tx_data_[0] = tx_data_[2] = tx_data_[4] = tx_data_[6] = high_byte;
