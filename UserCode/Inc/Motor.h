@@ -19,6 +19,7 @@ public:
         POSITION_SPEED = 2
     }control_method_ = ControlMethod::TORQUE;
 
+    Motor() = delete;
     Motor(float ratio, uint16_t esc_id, CAN_HandleTypeDef * hcan, const PID & ppid, const PID & spid);
     virtual ~Motor() = default;
 
@@ -33,7 +34,8 @@ public:
     void handle();
 protected:
     const float ratio_;
-    uint16_t esc_id_ = 0x200;
+
+    uint16_t esc_id_;
 
     struct MotorState
     {
@@ -56,8 +58,9 @@ protected:
         float feedback = 0;
     }speed_, angle_;
 
-    CAN_RxHeaderTypeDef rx_header_;
     CAN_HandleTypeDef *hcan_ = nullptr;
+
+    CAN_RxHeaderTypeDef rx_header_;
 
     uint8_t tx_data_[8] = {};
     uint32_t can_tx_mailbox_;

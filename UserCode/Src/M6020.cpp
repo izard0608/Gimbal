@@ -1,25 +1,25 @@
 //
 // Created by Izard on 2025/11/5.
 //
-#include "M3508.h"
+
+#include "M6020.h"
 #include "Utils.h"
 
 using namespace utils;
 
-M3508::M3508(float ratio, uint16_t esc_id, CAN_HandleTypeDef * hcan, const PID & ppid, const PID & spid) : Motor(ratio, hcan, ppid, spid)
+M6020::M6020(float ratio, uint16_t esc_id, CAN_HandleTypeDef * hcan, const PID & ppid, const PID & spid) : Motor(ratio, esc_id, hcan, ppid, spid)
 {
     tx_header_ = {
-        .StdId = 0x200,
+        .StdId = 0x1FF,
         .ExtId = 0x000,
         .IDE = CAN_ID_STD,
         .RTR = CAN_RTR_DATA,
         .DLC = 8,
         .TransmitGlobalTime = DISABLE
     };
-    esc_id_ = esc_id;
 }
 
-void M3508::parse_can_msg_callback(const uint8_t rx_data[8])
+void M6020::parse_can_msg_callback(const uint8_t rx_data[8])
 {
     // Get Current EncoderAngle, Map to [0, 360)
     motor_state_.ecd_angle = linear_mapping(static_cast<float>(rx_data[0] << 8 | rx_data[1]), 0, 8191, 0, 360);
@@ -52,7 +52,7 @@ void M3508::parse_can_msg_callback(const uint8_t rx_data[8])
     motor_state_.temp = static_cast<float>(rx_data[6]);
 }
 
-void M3508::write_tx()
+void M6020::write_tx()
 {
     const uint8_t high_byte = static_cast<int16_t>(output_intensity_) >> 8;
     const uint8_t low_byte = static_cast<int16_t>(output_intensity_) & 0xFF;
@@ -61,7 +61,7 @@ void M3508::write_tx()
     HAL_CAN_AddTxMessage(hcan_, &tx_header_, tx_data_, &can_tx_mailbox_);
 }
 
-float M3508::feedforward_intensity_calc(float current_angle)
+float M6020::feedforward_intensity_calc(float current_angle)
 {
     return 0.0f;
 }

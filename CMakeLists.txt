@@ -56,6 +56,8 @@ add_executable(${CMAKE_PROJECT_NAME}
         UserCode/Src/M3508.cpp
         UserCode/Inc/Utils.h
         UserCode/Src/Utils.cpp
+        UserCode/Inc/M6020.h
+        UserCode/Src/M6020.cpp
 )
 
 # Add STM32CubeMX generated sources
