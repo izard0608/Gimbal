@@ -11,7 +11,7 @@ T clamp(const T & value, const T & min, const T & max)
 }
 
 Motor::Motor(const float ratio, const uint16_t esc_id, CAN_HandleTypeDef *hcan, const PID & ppid, const PID & spid) :
-    ratio_(ratio), esc_id_(esc_id), rx_header_(), hcan_(hcan), can_tx_mailbox_(0), tx_header_(), ppid_(ppid), spid_(spid) {}
+    ratio_(ratio), esc_id_(esc_id), hcan_(hcan), rx_header_(), can_tx_mailbox_(0), tx_header_(), ppid_(ppid), spid_(spid) {}
 
 void Motor::set_position(const float target_position, const float feedforward_speed, const float feedforward_intensity) {
     angle_.target = target_position;

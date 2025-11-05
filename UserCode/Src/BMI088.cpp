@@ -43,51 +43,51 @@ void bmi088_write_reg(const uint8_t reg, const uint8_t data)
     bmi088_write_byte(data);
 }
 
-void BMI088_ACCEL_NS_L() {
+void bm_i088_accel_ns_l() {
     HAL_GPIO_WritePin(CS1_ACCEL_GPIO_Port, CS1_ACCEL_Pin, GPIO_PIN_RESET);
 }
-void BMI088_ACCEL_NS_H() {
+void bm_i088_accel_ns_h() {
     HAL_GPIO_WritePin(CS1_ACCEL_GPIO_Port, CS1_ACCEL_Pin, GPIO_PIN_SET);
 }
-void BMI088_GYRO_NS_L()
+void bm_i088_gyro_ns_l()
 {
     HAL_GPIO_WritePin(CS1_GYRO_GPIO_Port, CS1_GYRO_Pin, GPIO_PIN_RESET);
 }
-void BMI088_GYRO_NS_H()
+void bm_i088_gyro_ns_h()
 {
     HAL_GPIO_WritePin(CS1_GYRO_GPIO_Port, CS1_GYRO_Pin, GPIO_PIN_SET);
 }
 
 void bmi088_accel_write_single_reg(const uint8_t reg, const uint8_t data)
 {
-    BMI088_GYRO_NS_H();
-    BMI088_ACCEL_NS_L();
+    bm_i088_gyro_ns_h();
+    bm_i088_accel_ns_l();
     bmi088_write_reg(reg, data);
-    BMI088_ACCEL_NS_H();
+    bm_i088_accel_ns_h();
 }
 void bmi088_accel_read_reg(const uint8_t reg, uint8_t *rx_data, const uint8_t length) // 加速度计读取，注意需要忽略第一位数据dummy byte
 {
-    BMI088_GYRO_NS_H();
-    BMI088_ACCEL_NS_L();
+    bm_i088_gyro_ns_h();
+    bm_i088_accel_ns_l();
     bmi088_write_byte(reg | 0x80);
     bmi088_read_byte(rx_data, 1);
     bmi088_read_byte(rx_data, length);
-    BMI088_ACCEL_NS_H();
+    bm_i088_accel_ns_h();
 }
 void bmi088_gyro_write_single_reg(const uint8_t reg, const uint8_t tx_data)
 {
-    BMI088_ACCEL_NS_H();
-    BMI088_GYRO_NS_L();
+    bm_i088_accel_ns_h();
+    bm_i088_gyro_ns_l();
     bmi088_write_reg(reg, tx_data);
-    BMI088_GYRO_NS_H();
+    bm_i088_gyro_ns_h();
 }
 void bmi088_gyro_read_reg(const uint8_t reg, uint8_t *rx_data, const uint8_t length)
 {
-    BMI088_ACCEL_NS_H();
-    BMI088_GYRO_NS_L();
+    bm_i088_accel_ns_h();
+    bm_i088_gyro_ns_l();
     bmi088_write_byte(reg | 0x80);
     bmi088_read_byte(rx_data, length);
-    BMI088_GYRO_NS_H();
+    bm_i088_gyro_ns_h();
 }
 
 float linear_mapping(const int16_t data, const int16_t in_min, const int16_t in_max, const int16_t out_min, const int16_t out_max)
