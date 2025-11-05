@@ -12,7 +12,7 @@ T clamp(const T & value, const T & min, const T & max)
 
 Motor::Motor(const float ratio, const uint16_t esc_id, CAN_HandleTypeDef *hcan, const PID & ppid, const PID & spid) :
     rx_header_(),
-    hcan_(hcan), ratio_(ratio), ppid_(ppid), spid_(spid), esc_id_(esc_id), can_tx_mailbox_(0)
+    hcan_(hcan), can_tx_mailbox_(0), ratio_(ratio), ppid_(ppid), spid_(spid), esc_id_(esc_id)
 {
 }
 

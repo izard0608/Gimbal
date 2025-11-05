@@ -51,6 +51,9 @@ add_executable(${CMAKE_PROJECT_NAME}
         UserCode/Inc/Motor.h
         UserCode/Src/Motor.cpp
         UserCode/Src/Motor.cpp
+        UserCode/Inc/M3508.h
+        UserCode/Inc/M3508.h
+        UserCode/Src/M3508.cpp
 )
 
 # Add STM32CubeMX generated sources

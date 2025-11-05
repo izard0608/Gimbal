@@ -10,7 +10,7 @@
 class Motor
 {
 public:
-    static uint8_t stop_flag_;
+    inline static uint8_t stop_flag_ = 1;
 
     enum class ControlMethod
     {
@@ -33,18 +33,26 @@ public:
 
     void handle();
 protected:
+    const float ratio_;
+
     struct MotorState
     {
-        float delta_angle_ = 0;
-        float ecd_angle_ = 0;
-        float last_ecd_angle_ = 0;
-        float delta_ecd_angle_ = 0;
-        float current_ = 0;
-        float temp_ = 0;
-        bool init_ = true; // delta = 0 when first read
+        float delta_angle = 0;
+        float ecd_angle = 0;
+        float last_ecd_angle = 0;
+        float delta_ecd_angle = 0;
+        float current = 0;
+        float temp = 0;
+        bool init = true; // delta = 0 when first read
     }motor_state_;
 
     float feedforward_intensity_ = 0;
+
+    struct PIDControllerParam
+    {
+        float target = 0;
+        float feedback = 0;
+    }speed_, angle_;
 
     CAN_RxHeaderTypeDef rx_header_;
     CAN_HandleTypeDef *hcan_ = nullptr;
@@ -60,14 +68,7 @@ protected:
         .TransmitGlobalTime = DISABLE
     };
 private:
-    const float ratio_;
-
     PID ppid_, spid_;
-    struct PIDControllerParam
-    {
-        float target = 0;
-        float feedback = 0;
-    }speed_, angle_;
     float output_intensity_ = 0;
     float feedforward_speed_ = 0;
 
