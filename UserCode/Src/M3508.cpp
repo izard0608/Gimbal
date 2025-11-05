@@ -6,7 +6,7 @@
 
 using namespace utils;
 
-M3508::M3508(float ratio, uint16_t esc_id, CAN_HandleTypeDef * hcan, const PID & ppid, const PID & spid) : Motor(ratio, hcan, ppid, spid)
+M3508::M3508(float ratio, uint16_t esc_id, CAN_HandleTypeDef * hcan, const PID & ppid, const PID & spid) : Motor(ratio, esc_id, hcan, ppid, spid)
 {
     tx_header_ = {
         .StdId = 0x200,
@@ -16,7 +16,6 @@ M3508::M3508(float ratio, uint16_t esc_id, CAN_HandleTypeDef * hcan, const PID &
         .DLC = 8,
         .TransmitGlobalTime = DISABLE
     };
-    esc_id_ = esc_id;
 }
 
 void M3508::parse_can_msg_callback(const uint8_t rx_data[8])
