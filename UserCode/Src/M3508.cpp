@@ -2,10 +2,9 @@
 // Created by Izard on 2025/11/5.
 //
 #include "M3508.h"
+#include "Utils.h"
 
-inline float linear_mapping(float value, float in_min, float in_max, float out_min, float out_max) {
-    return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
+using namespace utils;
 
 void M3508::parse_can_msg_callback(const uint8_t rx_data[8])
 {

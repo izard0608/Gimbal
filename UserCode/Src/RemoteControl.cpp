@@ -4,11 +4,9 @@
 #include "RemoteControl.h"
 
 #include "stm32f4xx_hal.h"
+#include "Utils.h"
 
-float linear_map(const float x, const float in_min, const float in_max, const float out_min, const float out_max)
-{
-    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
+using namespace utils;
 
 bool RemoteControl::get_connection_status() const
 {
@@ -40,8 +38,8 @@ void RemoteControl::handle()
     rc.sw1 = static_cast<RcData::Sw>(rc.s1);
     rc.sw2 = static_cast<RcData::Sw>(rc.s2);
 
-    rc.LeftAxisX = linear_map(rc.ch2, 364, 1684, -1, 1);
-    rc.LeftAxisY = linear_map(rc.ch3, 364, 1684, -1, 1);
-    rc.RightAxisX = linear_map(rc.ch0, 364, 1684, -1, 1);
-    rc.RightAxisY = linear_map(rc.ch1, 364, 1684, -1, 1);
+    rc.LeftAxisX = linear_mapping(rc.ch2, 364, 1684, -1, 1);
+    rc.LeftAxisY = linear_mapping(rc.ch3, 364, 1684, -1, 1);
+    rc.RightAxisX = linear_mapping(rc.ch0, 364, 1684, -1, 1);
+    rc.RightAxisY = linear_mapping(rc.ch1, 364, 1684, -1, 1);
 }
