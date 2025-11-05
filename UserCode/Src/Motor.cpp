@@ -12,7 +12,7 @@ T clamp(const T & value, const T & min, const T & max)
 
 Motor::Motor(const float ratio, const uint16_t esc_id, CAN_HandleTypeDef *hcan, const PID & ppid, const PID & spid) :
     ratio_(ratio),
-    rx_header_(), hcan_(hcan), can_tx_mailbox_(0), ppid_(ppid), spid_(spid), esc_id_(esc_id)
+    esc_id_(esc_id), rx_header_(), hcan_(hcan), can_tx_mailbox_(0), tx_header_(), ppid_(ppid), spid_(spid)
 {
 }
 
@@ -53,13 +53,4 @@ void Motor::handle()
         output_intensity_ = 0;
     }
     write_tx();
-}
-
-void Motor::write_tx()
-{
-    const uint8_t high_byte = static_cast<int16_t>(output_intensity_) >> 8;
-    const uint8_t low_byte = static_cast<int16_t>(output_intensity_) & 0x00FF;
-    tx_data_[0] = tx_data_[2] = tx_data_[4] = tx_data_[6] = high_byte;
-    tx_data_[1] = tx_data_[3] = tx_data_[5] = tx_data_[7] = low_byte;
-    HAL_CAN_AddTxMessage(hcan_, &tx_header_, tx_data_, &can_tx_mailbox_);
 }

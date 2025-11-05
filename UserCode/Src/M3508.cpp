@@ -6,6 +6,18 @@
 
 using namespace utils;
 
+M3508::M3508(float ratio, uint16_t esc_id, CAN_HandleTypeDef * hcan, const PID & ppid, const PID & spid) : Motor(ratio, esc_id, hcan, ppid, spid)
+{
+    tx_header_ = {
+        .StdId = 0x200,
+        .ExtId = 0x000,
+        .IDE = CAN_ID_STD,
+        .RTR = CAN_RTR_DATA,
+        .DLC = 8,
+        .TransmitGlobalTime = DISABLE
+    };
+}
+
 void M3508::parse_can_msg_callback(const uint8_t rx_data[8])
 {
     // Get Current EncoderAngle, Map to [0, 360)
@@ -37,4 +49,18 @@ void M3508::parse_can_msg_callback(const uint8_t rx_data[8])
     speed_.feedback = static_cast<int16_t>(rx_data[2] << 8 | rx_data[3]);
     motor_state_.current = linear_mapping(static_cast<int16_t>(rx_data[4] << 8 | rx_data[5]), -16384, 16384, -20, 20);
     motor_state_.temp = static_cast<float>(rx_data[6]);
+}
+
+void M3508::write_tx()
+{
+    const uint8_t high_byte = static_cast<int16_t>(output_intensity_) >> 8;
+    const uint8_t low_byte = static_cast<int16_t>(output_intensity_) & 0x00FF;
+    tx_data_[0] = tx_data_[2] = tx_data_[4] = tx_data_[6] = high_byte;
+    tx_data_[1] = tx_data_[3] = tx_data_[5] = tx_data_[7] = low_byte;
+    HAL_CAN_AddTxMessage(hcan_, &tx_header_, tx_data_, &can_tx_mailbox_);
+}
+
+float M3508::feedforward_intensity_calc(float current_angle)
+{
+    return 0.0f;
 }
