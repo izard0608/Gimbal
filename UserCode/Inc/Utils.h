@@ -7,7 +7,7 @@
 
 namespace utils
 {
-    inline float linear_mapping(float value, float in_min, float in_max, float out_min, float out_max);
+    float linear_mapping(float value, float in_min, float in_max, float out_min, float out_max);
     class KalmanFilter
     {
     public:

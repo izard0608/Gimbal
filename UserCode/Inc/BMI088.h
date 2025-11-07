@@ -7,30 +7,20 @@
 
 #include <cstdint>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+void bmi088_init();
 
-    void bmi088_init();
+void bmi088_write_byte(uint8_t tx_data);
+void bmi088_read_byte(uint8_t *rx_data, uint8_t length);
+void bmi088_write_reg(uint8_t reg, uint8_t data);
 
-    void bmi088_write_byte(uint8_t tx_data);
-    void bmi088_read_byte(uint8_t *rx_data, uint8_t length);
-    void bmi088_write_reg(uint8_t reg, uint8_t data);
+void bmi088_accel_ns_l();
+void bmi088_accel_ns_h();
+void bmi088_gyro_ns_l();
+void bmi088_gyro_ns_h();
 
-    void bmi088_accel_ns_l();
-    void bmi088_accel_ns_h();
-    void bmi088_gyro_ns_l();
-    void bmi088_gyro_ns_h();
-
-    void bmi088_accel_write_single_reg(uint8_t reg, uint8_t data);
-    void bmi088_accel_read_reg(uint8_t reg, uint8_t *rx_data, uint8_t length); // 加速度计读取，注意需要忽略第一位数据dummy byte
-    void bmi088_gyro_read_reg(uint8_t reg, uint8_t *rx_data, uint8_t length);
-    void bmi088_gyro_write_single_reg(uint8_t reg, uint8_t tx_data);
-
-    float linear_mapping(int16_t data,  int16_t in_min, int16_t in_max, int16_t out_min, int16_t out_max);
-
-#ifdef __cplusplus
-}
-#endif
+void bmi088_accel_write_single_reg(uint8_t reg, uint8_t data);
+void bmi088_accel_read_reg(uint8_t reg, uint8_t *rx_data, uint8_t length); // 加速度计读取，注意需要忽略第一位数据dummy byte
+void bmi088_gyro_read_reg(uint8_t reg, uint8_t *rx_data, uint8_t length);
+void bmi088_gyro_write_single_reg(uint8_t reg, uint8_t tx_data);
 
 #endif //GIMBAL_BMI088_H

@@ -4,7 +4,7 @@
 
 #include "Utils.h"
 
-inline float utils::linear_mapping(const float value, const float in_min, const float in_max, const float out_min, const float out_max)
+float utils::linear_mapping(const float value, const float in_min, const float in_max, const float out_min, const float out_max)
 {
     return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }

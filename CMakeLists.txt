@@ -40,8 +40,8 @@ add_executable(${CMAKE_PROJECT_NAME}
         UserCode/Inc/IMU.h
         UserCode/Inc/MahonyAHRS.h
         UserCode/Src/MahonyAHRS.cpp
-        UserCode/Inc/bmi088.h
-        UserCode/Src/bmi088.cpp
+        UserCode/Inc/BMI088.h
+        UserCode/Src/BMI088.cpp
         UserCode/Inc/RemoteControl.h
         UserCode/Src/RemoteControl.cpp
         UserCode/Inc/PID.h

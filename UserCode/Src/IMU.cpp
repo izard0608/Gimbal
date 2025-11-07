@@ -2,13 +2,15 @@
 // Created by Izard on 2025/11/3.
 //
 
-#include "../Inc/IMU.h"
+#include "IMU.h"
 #include <ctgmath>
 #include "BMI088.h"
-extern "C" {
 #include "MahonyAHRS.h"
-}
+#include "Utils.h"
+
 #define M_PI 3.14159265358979323846
+
+using namespace utils;
 
 void IMU::acc_calculate()
 {

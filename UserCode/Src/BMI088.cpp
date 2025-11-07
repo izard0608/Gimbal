@@ -2,9 +2,7 @@
 // Created by Izard on 2025/11/3.
 //
 #include "BMI088.h"
-#include "main.h"
 #include "spi.h"
-#include "stm32f4xx_hal_spi.h"
 
 void bmi088_init() {
     // Soft Reset ACCEL
@@ -43,54 +41,49 @@ void bmi088_write_reg(const uint8_t reg, const uint8_t data)
     bmi088_write_byte(data);
 }
 
-void bm_i088_accel_ns_l() {
+void bmi088_accel_ns_l() {
     HAL_GPIO_WritePin(CS1_ACCEL_GPIO_Port, CS1_ACCEL_Pin, GPIO_PIN_RESET);
 }
-void bm_i088_accel_ns_h() {
+void bmi088_accel_ns_h() {
     HAL_GPIO_WritePin(CS1_ACCEL_GPIO_Port, CS1_ACCEL_Pin, GPIO_PIN_SET);
 }
-void bm_i088_gyro_ns_l()
+void bmi088_gyro_ns_l()
 {
     HAL_GPIO_WritePin(CS1_GYRO_GPIO_Port, CS1_GYRO_Pin, GPIO_PIN_RESET);
 }
-void bm_i088_gyro_ns_h()
+void bmi088_gyro_ns_h()
 {
     HAL_GPIO_WritePin(CS1_GYRO_GPIO_Port, CS1_GYRO_Pin, GPIO_PIN_SET);
 }
 
 void bmi088_accel_write_single_reg(const uint8_t reg, const uint8_t data)
 {
-    bm_i088_gyro_ns_h();
-    bm_i088_accel_ns_l();
+    bmi088_gyro_ns_h();
+    bmi088_accel_ns_l();
     bmi088_write_reg(reg, data);
-    bm_i088_accel_ns_h();
+    bmi088_accel_ns_h();
 }
 void bmi088_accel_read_reg(const uint8_t reg, uint8_t *rx_data, const uint8_t length) // 加速度计读取，注意需要忽略第一位数据dummy byte
 {
-    bm_i088_gyro_ns_h();
-    bm_i088_accel_ns_l();
+    bmi088_gyro_ns_h();
+    bmi088_accel_ns_l();
     bmi088_write_byte(reg | 0x80);
     bmi088_read_byte(rx_data, 1);
     bmi088_read_byte(rx_data, length);
-    bm_i088_accel_ns_h();
+    bmi088_accel_ns_h();
 }
 void bmi088_gyro_write_single_reg(const uint8_t reg, const uint8_t tx_data)
 {
-    bm_i088_accel_ns_h();
-    bm_i088_gyro_ns_l();
+    bmi088_accel_ns_h();
+    bmi088_gyro_ns_l();
     bmi088_write_reg(reg, tx_data);
-    bm_i088_gyro_ns_h();
+    bmi088_gyro_ns_h();
 }
 void bmi088_gyro_read_reg(const uint8_t reg, uint8_t *rx_data, const uint8_t length)
 {
-    bm_i088_accel_ns_h();
-    bm_i088_gyro_ns_l();
+    bmi088_accel_ns_h();
+    bmi088_gyro_ns_l();
     bmi088_write_byte(reg | 0x80);
     bmi088_read_byte(rx_data, length);
-    bm_i088_gyro_ns_h();
-}
-
-float linear_mapping(const int16_t data, const int16_t in_min, const int16_t in_max, const int16_t out_min, const int16_t out_max)
-{
-    return static_cast<float>(data - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    bmi088_gyro_ns_h();
 }
