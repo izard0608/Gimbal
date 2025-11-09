@@ -10,8 +10,6 @@
 class Motor
 {
 public:
-    inline static uint8_t stop_flag_ = 1;
-
     enum class ControlMethod
     {
         TORQUE = 0,
@@ -22,6 +20,8 @@ public:
     Motor() = delete;
     Motor(float ratio, uint16_t esc_id, CAN_HandleTypeDef * hcan, const PID & ppid, const PID & spid);
     virtual ~Motor() = default;
+
+    static void toggle_stop_flag();
 
     virtual float feedforward_intensity_calc(float current_angle) = 0;
     virtual void parse_can_msg_callback(const uint8_t rx_data[8]) = 0;
@@ -67,6 +67,7 @@ protected:
     CAN_TxHeaderTypeDef tx_header_;
 private:
     PID ppid_, spid_;
+    inline static uint8_t stop_flag_ = 1;
 };
 
 #endif //GIMBAL_MOTOR_H

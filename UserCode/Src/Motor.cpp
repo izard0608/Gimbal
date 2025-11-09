@@ -3,28 +3,33 @@
 //
 #include "Motor.h"
 #include <cmath>
+#include "Utils.h"
 
-template<class T>
-T clamp(const T & value, const T & min, const T & max)
-{
-    return value < min ? min : (value > max ? max : value);
-}
+using namespace utils;
 
 Motor::Motor(const float ratio, const uint16_t esc_id, CAN_HandleTypeDef *hcan, const PID & ppid, const PID & spid) :
     ratio_(ratio), esc_id_(esc_id), hcan_(hcan), rx_header_(), can_tx_mailbox_(0), tx_header_(), ppid_(ppid), spid_(spid) {}
 
-void Motor::set_position(const float target_position, const float feedforward_speed, const float feedforward_intensity) {
+void Motor::toggle_stop_flag()
+{
+    stop_flag_ ^= 1u;
+}
+
+void Motor::set_position(const float target_position, const float feedforward_speed, const float feedforward_intensity)
+{
     angle_.target = target_position;
     feedforward_speed_ = feedforward_speed;
     feedforward_intensity_ = feedforward_intensity;
 }
 
-void Motor::set_speed(const float target_speed, const float feedforward_intensity) {
+void Motor::set_speed(const float target_speed, const float feedforward_intensity)
+{
     speed_.target = target_speed;
     feedforward_intensity_ = feedforward_intensity;
 }
 
-void Motor::set_intensity(const float intensity) {
+void Motor::set_intensity(const float intensity)
+{
     output_intensity_ = intensity;
 }
 

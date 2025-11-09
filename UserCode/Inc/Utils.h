@@ -20,6 +20,11 @@ namespace utils
         float Q = 0.001;
         float R = 0.543;
     };
+    template <typename T>
+    T clamp(const T & value, const T & min, const T & max)
+    {
+        return value < min ? min : (value > max ? max : value);
+    }
 }
 
 
