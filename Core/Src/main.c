@@ -50,7 +50,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+unsigned char rx_buf[20];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -101,7 +101,7 @@ int main(void)
   MX_CAN1_Init();
   MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
-
+    HAL_UARTEx_ReceiveToIdle_DMA(&huart3, rx_buf, 18);
   /* USER CODE END 2 */
 
   /* Init scheduler */
