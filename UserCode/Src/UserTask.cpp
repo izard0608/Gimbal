@@ -5,9 +5,7 @@
 #include "UserTask.h"
 #include "cmsis_os2.h"
 #include "IMU.h"
-#include "portmacro.h"
 #include "RemoteControl.h"
-#include "task.h"
 
 IMU imu;
 RemoteControl remote_control;
