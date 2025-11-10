@@ -4,11 +4,12 @@
 #include "Motor.h"
 #include <cmath>
 #include "Utils.h"
+#include "can.h"
 
 using namespace utils;
 
 Motor::Motor(const float ratio, const uint16_t esc_id, CAN_HandleTypeDef *hcan, const PID & ppid, const PID & spid) :
-    ratio_(ratio), esc_id_(esc_id), hcan_(hcan), rx_header_(), can_tx_mailbox_(0), tx_header_(), ppid_(ppid), spid_(spid) {}
+    ratio_(ratio), esc_id_(esc_id), hcan_(hcan), can_tx_mailbox_(0), tx_header_(), ppid_(ppid), spid_(spid), rx_header_() {}
 
 void Motor::toggle_stop_flag()
 {
@@ -55,4 +56,17 @@ void Motor::handle()
         output_intensity_ = 0;
     }
     write_tx();
+}
+
+void Motor::read_motor_sensor(const CAN_HandleTypeDef *hcan)
+{
+    if (hcan->Instance == hcan_->Instance)
+    {
+        unsigned char rx_data[8];
+        HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rx_header_, rx_data);
+        if (rx_header_.StdId == esc_id_)
+        {
+            parse_can_msg_callback(rx_data);
+        }
+    }
 }

@@ -32,6 +32,7 @@ public:
     void set_intensity(float intensity);
 
     void handle();
+    void read_motor_sensor(const CAN_HandleTypeDef *hcan);
 protected:
     const float ratio_;
 
@@ -60,14 +61,13 @@ protected:
 
     CAN_HandleTypeDef *hcan_ = nullptr;
 
-    CAN_RxHeaderTypeDef rx_header_;
-
-    uint8_t tx_data_[8] = {};
+    uint8_t tx_data_[8]{};
     uint32_t can_tx_mailbox_;
     CAN_TxHeaderTypeDef tx_header_;
 private:
     PID ppid_, spid_;
     inline static uint8_t stop_flag_ = 1;
+    CAN_RxHeaderTypeDef rx_header_;
 };
 
 #endif //GIMBAL_MOTOR_H

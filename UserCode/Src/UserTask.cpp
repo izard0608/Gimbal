@@ -5,7 +5,9 @@
 #include "UserTask.h"
 #include "cmsis_os2.h"
 #include "IMU.h"
+#include "portmacro.h"
 #include "RemoteControl.h"
+#include "task.h"
 
 IMU imu;
 RemoteControl remote_control;
@@ -18,11 +20,22 @@ constexpr osThreadAttr_t main_control_attributes {
     .priority = osPriorityNormal,
 };
 
-[[noreturn]] void main_control(void *arg)   // rc data to motor pos, imu calc, pid calc, can send, 1000Hz
+[[noreturn]] void main_control(void *)   // rc data to motor pos, imu calc, pid calc, can send, 1000Hz
 {
     for (;;)
     {
+        const uint32_t last_wake_time = osKernelGetTickCount();
 
+        // rc data to motor pos
+
+        // imu calc
+        imu.get_angles();
+
+        // pid calc
+
+        // can send
+
+        osDelayUntil(last_wake_time + 1);
     }
 }
 
@@ -33,11 +46,13 @@ constexpr osThreadAttr_t rc_update_attributes {
     .priority = osPriorityNormal,
 };
 
-[[noreturn]] void rc_update(void *arg)   // rc data handling, 125Hz
+[[noreturn]] void rc_update(void *)   // rc data handling, 125Hz
 {
     for (;;)
     {
-
+        const uint32_t last_wake_time = osKernelGetTickCount();
+        remote_control.handle();
+        osDelayUntil(last_wake_time + 8);
     }
 }
 
@@ -48,11 +63,14 @@ constexpr osThreadAttr_t imu_read_attributes {
     .priority = osPriorityNormal,
 };
 
-[[noreturn]] void imu_read(void *arg)
+[[noreturn]] void imu_read(void *)
 {
     for (;;)    // imu read, 1000Hz
     {
-
+        const uint32_t last_wake_time = osKernelGetTickCount();
+        imu.acc_calculate();
+        imu.gyro_calculate();
+        osDelayUntil(last_wake_time + 1);
     }
 }
 
@@ -61,4 +79,5 @@ void user_task_init() {
     // User task initialization code goes here
     main_control_handle = osThreadNew(main_control, nullptr, &main_control_attributes);
     rc_update_handle = osThreadNew(rc_update, nullptr, &rc_update_attributes);
+    imu_read_handle = osThreadNew(imu_read, nullptr, &imu_read_attributes);
 }
