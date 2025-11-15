@@ -27,8 +27,8 @@ public:
     virtual void parse_can_msg_callback(const uint8_t rx_data[8]) = 0;
     virtual void write_tx() = 0;
 
-    void set_position(float target_position, float feedforward_speed, float feedforward_intensity);
-    void set_speed(float target_speed, float feedforward_intensity);
+    void set_position(float target_position, float feedforward_speed = 0.0f, float feedforward_intensity = 0.0f);
+    void set_speed(float target_speed, float feedforward_intensity = 0.0f);
     void set_intensity(float intensity);
 
     void handle();

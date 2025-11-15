@@ -21,14 +21,14 @@ void Motor::set_stop_flag()
     stop_flag_ = 1u;
 }
 
-void Motor::set_position(const float target_position, const float feedforward_speed = 0.0f, const float feedforward_intensity = 0.0f)
+void Motor::set_position(const float target_position, const float feedforward_speed, const float feedforward_intensity)
 {
     angle_.target = target_position;
     feedforward_speed_ = feedforward_speed;
     feedforward_intensity_ = feedforward_intensity;
 }
 
-void Motor::set_speed(const float target_speed, const float feedforward_intensity = 0.0f)
+void Motor::set_speed(const float target_speed, const float feedforward_intensity)
 {
     speed_.target = target_speed;
     feedforward_intensity_ = feedforward_intensity;
