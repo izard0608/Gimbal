@@ -36,5 +36,3 @@ void IMU::get_angles()
     mahony_ahr_supdate_imu(gyro_value[0] / 180.0 * M_PI, gyro_value[1] / 180.0 * M_PI, gyro_value[2] / 180.0 * M_PI, acc_value[0], acc_value[1], acc_value[2]);
     get_angle(ins_angle, ins_angle + 1, ins_angle + 2);
 }
-
-IMU imu;
