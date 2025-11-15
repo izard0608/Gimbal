@@ -36,6 +36,8 @@ constexpr osThreadAttr_t main_control_attributes {
             Motor::clear_stop_flag();
         }
 
+
+
         // imu calc
         imu.get_angles();
 

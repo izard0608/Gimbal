@@ -37,10 +37,10 @@ void RemoteControl::handle()
     rc.sw1 = static_cast<RcData::Sw>(rc.s1);
     rc.sw2 = static_cast<RcData::Sw>(rc.s2);
 
-    rc.LeftAxisX = linear_mapping(rc.ch2, 364, 1684, -1, 1);
-    rc.LeftAxisY = linear_mapping(rc.ch3, 364, 1684, -1, 1);
-    rc.RightAxisX = linear_mapping(rc.ch0, 364, 1684, -1, 1);
-    rc.RightAxisY = linear_mapping(rc.ch1, 364, 1684, -1, 1);
+    rc.LeftAxisX = linear_mapping(rc.ch2, 364, 1684, -512, 512);
+    rc.LeftAxisY = linear_mapping(rc.ch3, 364, 1684, -512, 512);
+    rc.RightAxisX = linear_mapping(rc.ch0, 364, 1684, -512, 512);
+    rc.RightAxisY = linear_mapping(rc.ch1, 364, 1684, -512, 512);
 }
 
 RemoteControl::RcData * RemoteControl::get_rc_data()

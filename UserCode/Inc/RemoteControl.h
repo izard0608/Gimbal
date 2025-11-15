@@ -18,7 +18,7 @@ public:
     struct RcData
     {
         uint16_t ch0, ch1, ch2, ch3;
-        float LeftAxisX, LeftAxisY, RightAxisX, RightAxisY;
+        int16_t LeftAxisX, LeftAxisY, RightAxisX, RightAxisY;
         uint8_t s1, s2;
         enum Sw
         {
