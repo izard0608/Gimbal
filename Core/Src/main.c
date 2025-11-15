@@ -102,6 +102,8 @@ int main(void)
   MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
     HAL_UARTEx_ReceiveToIdle_DMA(&huart3, rx_buf, 18);
+    HAL_CAN_Start(&hcan1);
+    HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
   /* USER CODE END 2 */
 
   /* Init scheduler */

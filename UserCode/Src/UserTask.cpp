@@ -4,19 +4,21 @@
 
 #include "UserTask.h"
 #include <cmath>
+#include "BMI088.h"
 #include "cmsis_os2.h"
 #include "IMU.h"
 #include "RemoteControl.h"
 #include "M3508.h"
 #include "M6020.h"
 #include "Utils.h"
+#include "can.h"
 
 using namespace utils;
 
 IMU imu;
 RemoteControl remote_control;
-M6020 yaw();
-M3508 pitch();
+M6020 yaw(1, 0, &hcan2, PID(10.0f, 0.0f, 0.5f), PID(0.5f, 0.0f, 0.1f));
+M3508 pitch(3591 / 187.0f, 0, &hcan1, PID(15.0f, 0.0f, 0.7f), PID(0.8f, 0.0f, 0.15f));
 Motor::MotorState * pitch_motor_state, yaw_motor_state;
 
 
@@ -120,5 +122,6 @@ void user_task_init() {
     rc_update_handle = osThreadNew(rc_update, nullptr, &rc_update_attributes);
     imu_read_handle = osThreadNew(imu_read, nullptr, &imu_read_attributes);
 
+    bmi088_init();
 
 }
