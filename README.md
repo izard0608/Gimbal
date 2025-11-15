@@ -130,3 +130,7 @@
 ## 2025.11.15
 ### 已完成
 - RTOS_Frame跑通，合并到dev，RTOS_Frame closed
+### Pending
+- 主控线程
+- CAN中断
+- 看门狗和定时器
