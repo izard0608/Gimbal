@@ -45,7 +45,7 @@ constexpr osThreadAttr_t main_control_attributes {
             Motor::clear_stop_flag();
         }
 
-        // joystick to angle delta and deadzone check
+        // joystick to angle and deadzone check
         if (abs(rc_status->RightAxisX) > 20)
         {
             yaw_angle_delta = linear_mapping(rc_status->RightAxisX, -512, 512, -1.0f, 1.0f);
