@@ -29,4 +29,5 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 void hal_can_rx_fifo0_msg_pending_callback(CAN_HandleTypeDef *hcan)
 {
     // write later
+    pitch.read_motor_sensor(hcan);
 }
