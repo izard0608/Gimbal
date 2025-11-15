@@ -12,6 +12,9 @@
 
 extern unsigned char rx_buf[20];
 extern RemoteControl remote_control;
+extern M3508 pitch;
+extern M6020 yaw;
+extern Motor::MotorState * pitch_motor_state, yaw_motor_state;
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {

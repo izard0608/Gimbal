@@ -17,7 +17,6 @@ public:
         POSITION_SPEED = 2
     }control_method_ = ControlMethod::TORQUE;
 
-    Motor() = delete;
     Motor(float ratio, uint16_t esc_id, CAN_HandleTypeDef * hcan, const PID & ppid, const PID & spid);
     virtual ~Motor() = default;
 
@@ -34,10 +33,6 @@ public:
 
     void handle();
     void read_motor_sensor(const CAN_HandleTypeDef *hcan);
-protected:
-    const float ratio_;
-
-    uint16_t esc_id_;
 
     struct MotorState
     {
@@ -48,7 +43,15 @@ protected:
         float current = 0;
         float temp = 0;
         bool init = true; // delta = 0 when first read
-    }motor_state_;
+    };
+    MotorState * get_motor_state();
+
+protected:
+    const float ratio_;
+
+    uint16_t esc_id_;
+
+    MotorState motor_state_;
 
     float feedforward_intensity_ = 0;
     float output_intensity_ = 0;
