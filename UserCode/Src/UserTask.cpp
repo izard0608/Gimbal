@@ -26,7 +26,7 @@ constexpr osThreadAttr_t main_control_attributes {
         const uint32_t last_wake_time = osKernelGetTickCount();
 
         // rc data to motor status
-        RemoteControl::RcData * rc_status = remote_control.get_rc_data();
+        const RemoteControl::RcData * rc_status = remote_control.get_rc_data();
         if (rc_status->sw2 == RemoteControl::RcData::Sw::DOWN)
         {
             Motor::set_stop_flag();
