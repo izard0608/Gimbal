@@ -11,9 +11,14 @@ using namespace utils;
 Motor::Motor(const float ratio, const uint16_t esc_id, CAN_HandleTypeDef *hcan, const PID & ppid, const PID & spid) :
     ratio_(ratio), esc_id_(esc_id), hcan_(hcan), can_tx_mailbox_(0), tx_header_(), ppid_(ppid), spid_(spid), rx_header_() {}
 
-void Motor::toggle_stop_flag()
+void Motor::clear_stop_flag()
 {
-    stop_flag_ ^= 1u;
+    stop_flag_ = 0u;
+}
+
+void Motor::set_stop_flag()
+{
+    stop_flag_ = 1u;
 }
 
 void Motor::set_position(const float target_position, const float feedforward_speed, const float feedforward_intensity)
@@ -52,7 +57,7 @@ void Motor::handle()
     }
     output_intensity_ = clamp<int16_t>(static_cast<int16_t>(output_intensity_), -16384, 16384);
     // Protection
-    if ((stop_flag_ != 0u) || fabsf(speed_.feedback) > 6000) {
+    if ((stop_flag_ == 1u) || fabsf(speed_.feedback) > 6000) {
         output_intensity_ = 0;
     }
     write_tx();

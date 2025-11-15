@@ -21,7 +21,8 @@ public:
     Motor(float ratio, uint16_t esc_id, CAN_HandleTypeDef * hcan, const PID & ppid, const PID & spid);
     virtual ~Motor() = default;
 
-    static void toggle_stop_flag();
+    static void clear_stop_flag();
+    static void set_stop_flag();
 
     virtual float feedforward_intensity_calc(float current_angle) = 0;
     virtual void parse_can_msg_callback(const uint8_t rx_data[8]) = 0;
