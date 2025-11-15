@@ -65,8 +65,6 @@ constexpr osThreadAttr_t main_control_attributes {
         yaw_target_angle += yaw_angle_delta;
         yaw_target_angle = fmod(yaw_target_angle, 360.0f);
 
-
-
         // imu calc
         imu.get_angles();
 
