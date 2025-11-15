@@ -14,8 +14,7 @@ public:
     void handle();
     void update_signal_tick();
     void get_rx_data(const uint8_t * rx_buf);
-private:
-    unsigned char rx_data[20] = {};
+
     struct RcData
     {
         uint16_t ch0, ch1, ch2, ch3;
@@ -25,7 +24,11 @@ private:
         {
             UP = 1, MID = 3, DOWN = 2
         }sw1, sw2;
-    }rc = {};
+    };
+    RcData * get_rc_data();
+private:
+    unsigned char rx_data[20] = {};
+    RcData rc = {};
     uint64_t signal_tick = 0;
 };
 

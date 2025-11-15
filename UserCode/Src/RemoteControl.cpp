@@ -42,3 +42,8 @@ void RemoteControl::handle()
     rc.RightAxisX = linear_mapping(rc.ch0, 364, 1684, -1, 1);
     rc.RightAxisY = linear_mapping(rc.ch1, 364, 1684, -1, 1);
 }
+
+RemoteControl::RcData * RemoteControl::get_rc_data()
+{
+    return &rc;
+}
