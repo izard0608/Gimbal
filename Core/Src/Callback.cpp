@@ -12,7 +12,7 @@
 
 extern unsigned char rx_buf[20];
 extern RemoteControl remote_control;
-extern M3508 pitch;
+extern M6020 pitch;
 extern M6020 yaw;
 extern Motor::MotorState * pitch_motor_state, yaw_motor_state;
 
@@ -30,4 +30,5 @@ void hal_can_rx_fifo0_msg_pending_callback(CAN_HandleTypeDef *hcan)
 {
     // write later
     pitch.read_motor_sensor(hcan);
+    yaw.read_motor_sensor(hcan);
 }

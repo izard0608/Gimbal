@@ -41,7 +41,7 @@ void Motor::set_intensity(const float intensity)
 
 void Motor::handle()
 {
-    feedforward_intensity_ = feedforward_intensity_calc(angle_.feedback);
+    feedforward_intensity_ = feedforward_intensity_calc_(angle_.feedback);
     switch (control_method_) {
     case ControlMethod::TORQUE: {
             break;
@@ -69,7 +69,7 @@ void Motor::read_motor_sensor(const CAN_HandleTypeDef *hcan)
     {
         unsigned char rx_data[8];
         HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rx_header_, rx_data);
-        if (rx_header_.StdId == esc_id_)
+        if (rx_header_.StdId == esc_id_ + 0x204)    // M6020: 0x204, M3508: 0x200
         {
             parse_can_msg_callback(rx_data);
         }

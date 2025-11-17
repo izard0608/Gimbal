@@ -23,16 +23,18 @@ public:
     static void clear_stop_flag();
     static void set_stop_flag();
 
-    virtual float feedforward_intensity_calc(float current_angle) = 0;
     virtual void parse_can_msg_callback(const uint8_t rx_data[8]) = 0;
     virtual void write_tx() = 0;
+
+    float (*feedforward_intensity_calc_)(float current_angle) = [](float) -> float {return 0.0f; };
+
 
     void set_position(float target_position, float feedforward_speed = 0.0f, float feedforward_intensity = 0.0f);
     void set_speed(float target_speed, float feedforward_intensity = 0.0f);
     void set_intensity(float intensity);
 
     void handle();
-    void read_motor_sensor(const CAN_HandleTypeDef *hcan);
+    virtual void read_motor_sensor(const CAN_HandleTypeDef *hcan);
 
     struct MotorState
     {

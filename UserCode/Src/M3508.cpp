@@ -59,8 +59,3 @@ void M3508::write_tx()
     tx_data_[(esc_id_ - 1) * 2 + 1] = low_byte;
     HAL_CAN_AddTxMessage(hcan_, &tx_header_, tx_data_, &can_tx_mailbox_);
 }
-
-float M3508::feedforward_intensity_calc(float current_angle)
-{
-    return 0.0f;
-}

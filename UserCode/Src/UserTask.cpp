@@ -8,7 +8,6 @@
 #include "cmsis_os2.h"
 #include "IMU.h"
 #include "RemoteControl.h"
-#include "M3508.h"
 #include "M6020.h"
 #include "Utils.h"
 #include "can.h"
@@ -17,8 +16,8 @@ using namespace utils;
 
 IMU imu;
 RemoteControl remote_control;
-M6020 yaw(1, 0, &hcan2, PID(10.0f, 0.0f, 0.5f), PID(0.5f, 0.0f, 0.1f));
-M3508 pitch(3591 / 187.0f, 0, &hcan1, PID(15.0f, 0.0f, 0.7f), PID(0.8f, 0.0f, 0.15f));
+M6020 yaw(1, 0, &hcan1, PID(19.8, 0.4, 5.7, 30, 3000, 0.05), PID(18.0f, 0.0f, 9.0f, 0.0f, 16000.0f, 0.03));
+M6020 pitch(1, 0, &hcan1, PID(19.8, 0.4, 5.7, 30, 3000, 0.05), PID(18.0f, 0.0f, 9.0f, 0.0f, 16000.0f, 0.03));
 Motor::MotorState * pitch_motor_state, yaw_motor_state;
 
 
@@ -123,5 +122,7 @@ void user_task_init() {
     imu_read_handle = osThreadNew(imu_read, nullptr, &imu_read_attributes);
 
     bmi088_init();
+
+    pitch.feedforward_intensity_calc_ = [](float) -> float {return 0.0f; };
 
 }
