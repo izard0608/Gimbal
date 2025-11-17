@@ -104,6 +104,7 @@ int main(void)
     HAL_UARTEx_ReceiveToIdle_DMA(&huart3, rx_buf, 18);
     HAL_CAN_Start(&hcan1);
     HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
+    HAL_TIM_Base_Start_IT(&htim7);
   /* USER CODE END 2 */
 
   /* Init scheduler */

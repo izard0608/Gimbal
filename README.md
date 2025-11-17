@@ -64,8 +64,8 @@
 ### NVIC
 - CAN1 RX0 interrupts: ENABLE
 ### GPIO
-- ```CAN1_RX```: PD0
-- ```CAN1_TX```: PD1
+- ```CAN1_RX```: PA11
+- ```CAN1_TX```: PA12
 ## IWDG
 - Countdown time: 1.5s
 - Prescaler: 32
