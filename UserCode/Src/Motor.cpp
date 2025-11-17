@@ -9,7 +9,7 @@
 using namespace utils;
 
 Motor::Motor(const float ratio, const uint16_t esc_id, CAN_HandleTypeDef *hcan, const PID & ppid, const PID & spid) :
-    ratio_(ratio), esc_id_(esc_id), hcan_(hcan), can_tx_mailbox_(0), tx_header_(), ppid_(ppid), spid_(spid), rx_header_() {}
+    ratio_(ratio), esc_id_(esc_id), hcan_(hcan), can_tx_mailbox_(0), tx_header_(), ppid_(ppid), spid_(spid) {}
 
 void Motor::clear_stop_flag()
 {
@@ -63,16 +63,11 @@ void Motor::handle()
     write_tx();
 }
 
-void Motor::read_motor_sensor(const CAN_HandleTypeDef *hcan)
+void Motor::read_motor_sensor(const CAN_HandleTypeDef *hcan, const CAN_RxHeaderTypeDef & rx_header, const uint8_t rx_data[8])
 {
-    if (hcan->Instance == hcan_->Instance)
+    if (rx_header.StdId == esc_id_ + 0x204)    // M6020: 0x204, M3508: 0x200
     {
-        unsigned char rx_data[8];
-        HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rx_header_, rx_data);
-        if (rx_header_.StdId == esc_id_ + 0x204)    // M6020: 0x204, M3508: 0x200
-        {
-            parse_can_msg_callback(rx_data);
-        }
+        parse_can_msg_callback(rx_data);
     }
 }
 

@@ -34,7 +34,7 @@ public:
     void set_intensity(float intensity);
 
     void handle();
-    virtual void read_motor_sensor(const CAN_HandleTypeDef *hcan);
+    virtual void read_motor_sensor(const CAN_HandleTypeDef *hcan, const CAN_RxHeaderTypeDef & rx_header, const uint8_t rx_data[8]);
 
     struct MotorState
     {
@@ -73,7 +73,6 @@ protected:
 private:
     PID ppid_, spid_;
     inline static uint8_t stop_flag_ = 1;
-    CAN_RxHeaderTypeDef rx_header_;
 };
 
 #endif //GIMBAL_MOTOR_H

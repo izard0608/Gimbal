@@ -7,7 +7,6 @@
 #include "RemoteControl.h"
 #include "tim.h"
 #include "usart.h"
-#include "M3508.h"
 #include "M6020.h"
 
 extern unsigned char rx_buf[20];
@@ -28,7 +27,12 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 
 void hal_can_rx_fifo0_msg_pending_callback(CAN_HandleTypeDef *hcan)
 {
-    // write later
-    pitch.read_motor_sensor(hcan);
-    yaw.read_motor_sensor(hcan);
+    if (hcan == &hcan1)
+    {
+        uint8_t rx_data[8];
+        CAN_RxHeaderTypeDef rx_header;
+        HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rx_header, rx_data);
+        pitch.read_motor_sensor(hcan, rx_header, rx_data);
+        yaw.read_motor_sensor(hcan, rx_header, rx_data);
+    }
 }
