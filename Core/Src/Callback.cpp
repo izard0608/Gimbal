@@ -7,7 +7,6 @@
 #include "RemoteControl.h"
 #include "usart.h"
 #include "M6020.h"
-#include "iwdg.h"
 
 extern unsigned char rx_buf[20];
 extern RemoteControl remote_control;
