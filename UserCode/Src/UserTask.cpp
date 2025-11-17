@@ -16,8 +16,8 @@ using namespace utils;
 
 IMU imu;
 RemoteControl remote_control;
-M6020 yaw(1, 0, &hcan1, PID(19.8, 0.4, 57, 30, 3000, 0.05), PID(18.0f, 0.0f, 9.0f, 0.0f, 16000.0f, 0.03));
-M6020 pitch(1, 0, &hcan1, PID(19.8, 0.4, 57, 30, 3000, 0.05), PID(18.0f, 0.0f, 9.0f, 0.0f, 16000.0f, 0.03));
+M6020 yaw(1, 1, &hcan1, PID(19.8, 0.4, 57, 30, 3000, 0.05), PID(18.0f, 0.0f, 9.0f, 0.0f, 16000.0f, 0.03));
+M6020 pitch(1, 4, &hcan1, PID(19.8, 0.4, 57, 30, 3000, 0.05), PID(18.0f, 0.0f, 9.0f, 0.0f, 16000.0f, 0.03));
 Motor::MotorState * pitch_motor_state, yaw_motor_state;
 
 

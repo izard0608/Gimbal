@@ -5,7 +5,6 @@
 #include "can.h"
 #include "main.h"
 #include "RemoteControl.h"
-#include "tim.h"
 #include "usart.h"
 #include "M6020.h"
 #include "iwdg.h"
@@ -35,13 +34,5 @@ void hal_can_rx_fifo0_msg_pending_callback(CAN_HandleTypeDef *hcan)
         HAL_CAN_GetRxMessage(&hcan1, CAN_RX_FIFO0, &rx_header, rx_data);
         pitch.read_motor_sensor(hcan, rx_header, rx_data);
         yaw.read_motor_sensor(hcan, rx_header, rx_data);
-    }
-}
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-    if (htim == &htim7)
-    {
-        HAL_IWDG_Refresh(&hiwdg);
     }
 }
