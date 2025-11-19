@@ -50,6 +50,17 @@
 
 /* USER CODE BEGIN PV */
 unsigned char rx_buf[20];
+CAN_FilterTypeDef filter_config = {
+    .FilterIdHigh = 0x000,
+    .FilterIdLow = 0x000,
+    .FilterMaskIdHigh = 0x000,
+    .FilterMaskIdLow = 0x000,
+    .FilterFIFOAssignment = CAN_FILTER_FIFO0,
+    .FilterBank = 0,
+    .FilterMode = CAN_FILTERMODE_IDMASK,
+    .FilterScale = CAN_FILTERSCALE_32BIT,
+    .FilterActivation = ENABLE
+  };
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -100,6 +111,7 @@ int main(void)
   MX_CAN1_Init();
   /* USER CODE BEGIN 2 */
     HAL_UARTEx_ReceiveToIdle_DMA(&huart3, rx_buf, 18);
+    HAL_CAN_ConfigFilter(&hcan1, &filter_config);
     HAL_CAN_Start(&hcan1);
     HAL_CAN_ActivateNotification(&hcan1, CAN_IT_RX_FIFO0_MSG_PENDING);
     HAL_TIM_Base_Start_IT(&htim7);
@@ -192,10 +204,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-    // if (htim->Instance == TIM7)
-    // {
-    //     HAL_IWDG_Refresh(&hiwdg);
-    // }
+     if (htim->Instance == TIM7)
+     {
+					static int32_t x = 0;
+					++x;
+         // HAL_IWDG_Refresh(&hiwdg);
+     }
   /* USER CODE END Callback 1 */
 }
 
