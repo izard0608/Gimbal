@@ -10,7 +10,7 @@ using namespace utils;
 M6020::M6020(float ratio, uint16_t esc_id, CAN_HandleTypeDef * hcan, const PID & ppid, const PID & spid) : Motor(ratio, esc_id, hcan, ppid, spid)
 {
     tx_header_ = {
-        .StdId = 0x1FF,
+        .StdId = 0x1FE,
         .ExtId = 0x000,
         .IDE = CAN_ID_STD,
         .RTR = CAN_RTR_DATA,
