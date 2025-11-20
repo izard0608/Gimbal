@@ -8,16 +8,20 @@ void bmi088_init() {
     // Soft Reset ACCEL
     bmi088_accel_ns_l();
     bmi088_write_reg(0x7E, 0xB6); // Write 0xB6 to ACC_SOFTRESET(0x7E)
+    HAL_Delay(1);
     bmi088_accel_ns_h();
 
     // Soft Reset GYRO
     bmi088_gyro_ns_l();
     bmi088_write_reg(0x14, 0xB6); // Write 0xB6 to GYRO_SOFTRESET(0x14)
+    HAL_Delay(30);
     bmi088_gyro_ns_h();
 
     // Switch ACCEL to Normal Mode
     bmi088_accel_ns_l();
+    HAL_Delay(1);
     bmi088_write_reg(0x7D, 0x04); // Write 0x04 to ACC_PWR_CTRL(0x7D)
+    HAL_Delay(1);
     bmi088_accel_ns_h();
 }
 void bmi088_write_byte(const uint8_t tx_data) {

@@ -4,7 +4,6 @@
 
 #include "UserTask.h"
 #include <cmath>
-#include "BMI088.h"
 #include "cmsis_os2.h"
 #include "IMU.h"
 #include "RemoteControl.h"
@@ -16,8 +15,8 @@ using namespace utils;
 
 IMU imu;
 RemoteControl remote_control;
-M6020 yaw(1, 1, &hcan1, PID(19.8, 0.4, 57, 30, 3000, 0.05), PID(18.0f, 0.0f, 9.0f, 0.0f, 16000.0f, 0.03));
-M6020 pitch(1, 3, &hcan1, PID(19.8, 0.4, 57, 30, 3000, 0.05), PID(18.0f, 0.0f, 9.0f, 0.0f, 16000.0f, 0.03));
+M6020 yaw(1, 3, &hcan1, PID(19.8, 0.4, 57, 30, 3000, 0.05), PID(18.0f, 0.0f, 9.0f, 0.0f, 16000.0f, 0.03));
+M6020 pitch(1, 1, &hcan1, PID(19.8, 0.4, 57, 30, 3000, 0.05), PID(18.0f, 0.0f, 9.0f, 0.0f, 16000.0f, 0.03));
 Motor::MotorState * pitch_motor_state, yaw_motor_state;
 
 
@@ -56,9 +55,12 @@ constexpr osThreadAttr_t main_control_attributes {
             pitch_angle_delta = linear_mapping(rc_status->RightAxisY, -512, 512, -1.0f, 1.0f);
         }
         float pitch_target_angle = pitch_motor_state->ecd_angle, yaw_target_angle = yaw_motor_state.ecd_angle;
-        if (pitch_target_angle + pitch_angle_delta > 30.0f) // mechanical limit
+        if (pitch_target_angle + pitch_angle_delta > 13.0f) // mechanical limit
         {
-            pitch_target_angle = 30.0f;
+            pitch_target_angle = 13.0f;
+        }else if (pitch_target_angle + pitch_angle_delta < -30.0f)
+        {
+            pitch_target_angle = -30.0f;
         }else
         {
             pitch_target_angle = pitch_motor_state->ecd_angle + pitch_angle_delta;
@@ -120,8 +122,6 @@ void user_task_init() {
     main_control_handle = osThreadNew(main_control, nullptr, &main_control_attributes);
     rc_update_handle = osThreadNew(rc_update, nullptr, &rc_update_attributes);
     imu_read_handle = osThreadNew(imu_read, nullptr, &imu_read_attributes);
-
-    bmi088_init();
 
     pitch.feedforward_intensity_calc_ = [](float) -> float {return 0.0f; };
 
