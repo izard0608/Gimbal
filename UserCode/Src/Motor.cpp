@@ -26,17 +26,20 @@ void Motor::set_position(const float target_position, const float feedforward_sp
     angle_.target = target_position;
     feedforward_speed_ = feedforward_speed;
     feedforward_intensity_ = feedforward_intensity;
+    control_method_ = ControlMethod::POSITION_SPEED;
 }
 
 void Motor::set_speed(const float target_speed, const float feedforward_intensity)
 {
     speed_.target = target_speed;
     feedforward_intensity_ = feedforward_intensity;
+    control_method_ = ControlMethod::SPEED;
 }
 
 void Motor::set_intensity(const float intensity)
 {
     output_intensity_ = intensity;
+    control_method_ = ControlMethod::TORQUE;
 }
 
 void Motor::handle()
@@ -48,14 +51,15 @@ void Motor::handle()
     }
     case ControlMethod::SPEED: {
             output_intensity_ = spid_.calc(speed_.target, speed_.feedback) + feedforward_intensity_;
+            output_intensity_ = linear_mapping(clamp<float>(output_intensity_, -3.0f, 3.0f), -3.0f, 3.0f, -16384, 16384);
             break;
     }
     case ControlMethod::POSITION_SPEED: {
             speed_.target = ppid_.calc(angle_.target, angle_.feedback) + feedforward_speed_;
             output_intensity_ = spid_.calc(speed_.target, speed_.feedback) + feedforward_intensity_;
+            output_intensity_ = linear_mapping(clamp<float>(output_intensity_, -3.0f, 3.0f), -3.0f, 3.0f, -16384, 16384);
     }
     }
-    output_intensity_ = linear_mapping(clamp<float>(output_intensity_, -3.0f, 3.0f), -3.0f, 3.0f, -16384, 16384);
     // Protection
     if ((stop_flag_ == 1u) || fabsf(speed_.feedback) > 6000) {
         output_intensity_ = 0;

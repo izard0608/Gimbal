@@ -72,6 +72,7 @@ constexpr osThreadAttr_t main_control_attributes {
         imu.get_angles();
 
         // pid calc, can send
+        // pitch.set_intensity(16300);
         pitch.set_position(pitch_target_angle);
         yaw.set_position(yaw_target_angle);
         pitch.handle();
@@ -123,6 +124,6 @@ void user_task_init() {
     rc_update_handle = osThreadNew(rc_update, nullptr, &rc_update_attributes);
     imu_read_handle = osThreadNew(imu_read, nullptr, &imu_read_attributes);
 
-    pitch.feedforward_intensity_calc_ = [](float) -> float {return 0.0f; };
+    pitch.feedforward_intensity_calc_ = [](float) -> float {return -0.6f; };
 
 }
