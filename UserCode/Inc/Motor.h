@@ -15,7 +15,7 @@ public:
         TORQUE = 0,
         SPEED = 1,
         POSITION_SPEED = 2
-    }control_method_ = ControlMethod::TORQUE;
+    }control_method_ = ControlMethod::POSITION_SPEED;
 
     Motor(float ratio, uint16_t esc_id, CAN_HandleTypeDef * hcan, const PID & ppid, const PID & spid);
     virtual ~Motor() = default;

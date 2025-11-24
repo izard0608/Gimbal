@@ -3,6 +3,9 @@
 //
 
 #include "M6020.h"
+
+#include <cmath>
+
 #include "Utils.h"
 
 using namespace utils;
@@ -39,6 +42,7 @@ void M6020::parse_can_msg_callback(const uint8_t rx_data[8])
     motor_state_.last_ecd_angle = motor_state_.ecd_angle;
     motor_state_.delta_angle = motor_state_.delta_ecd_angle / ratio_;
     motor_state_.angle += motor_state_.delta_angle;
+    motor_state_.angle = fmod(motor_state_.angle, 360.0f);
 
     motor_state_.current = linear_mapping(static_cast<int16_t>(rx_data[4] << 8 | rx_data[5]), -16384, 16384, -20, 20);
     motor_state_.temp = static_cast<float>(rx_data[6]);

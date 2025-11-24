@@ -55,7 +55,7 @@ void Motor::handle()
             output_intensity_ = spid_.calc(speed_.target, speed_.feedback) + feedforward_intensity_;
     }
     }
-    output_intensity_ = clamp<int16_t>(static_cast<int16_t>(output_intensity_), -16384, 16384);
+    output_intensity_ = linear_mapping(clamp<float>(output_intensity_, -3.0f, 3.0f), -3.0f, 3.0f, -16384, 16384);
     // Protection
     if ((stop_flag_ == 1u) || fabsf(speed_.feedback) > 6000) {
         output_intensity_ = 0;
