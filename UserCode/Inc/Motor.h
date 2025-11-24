@@ -40,6 +40,7 @@ public:
     {
         float delta_angle = 0;
         float ecd_angle = 0;
+        float angle = 0;
         float last_ecd_angle = 0;
         float delta_ecd_angle = 0;
         float current = 0;

@@ -15,8 +15,8 @@ using namespace utils;
 
 IMU imu;
 RemoteControl remote_control;
-M6020 yaw(1, 3, &hcan1, PID(19.8, 0.4, 57, 30, 3000, 0.05), PID(18.0f, 0.0f, 9.0f, 0.0f, 16000.0f, 0.03));
-M6020 pitch(1, 1, &hcan1, PID(19.8, 0.4, 57, 30, 3000, 0.05), PID(18.0f, 0.0f, 9.0f, 0.0f, 16000.0f, 0.03));
+M6020 yaw(1, 3, &hcan1, PID(1, 0, 0.1, 0, 100, 0.05), PID(0.04, 0.003, 0.03, 0.177, 0.6, 0.2));
+M6020 pitch(1, 1, &hcan1, PID(10, 0, 5, 0, 400, 0.05), PID(0.006, 0, 0, 0, 1.5, 0.2));
 Motor::MotorState * pitch_motor_state, yaw_motor_state;
 
 
@@ -48,22 +48,22 @@ constexpr osThreadAttr_t main_control_attributes {
         // joystick to angle and deadzone check
         if (abs(rc_status->RightAxisX) > 20)
         {
-            yaw_angle_delta = linear_mapping(rc_status->RightAxisX, -512, 512, -1.0f, 1.0f);
+            yaw_angle_delta = linear_mapping(rc_status->RightAxisX, -512, 512, -3.0f, 3.0f);
         }
         if (abs(rc_status->RightAxisY) > 20)
         {
-            pitch_angle_delta = linear_mapping(rc_status->RightAxisY, -512, 512, -1.0f, 1.0f);
+            pitch_angle_delta = linear_mapping(rc_status->RightAxisY, -512, 512, -3.0f, 3.0f);
         }
-        float pitch_target_angle = pitch_motor_state->ecd_angle, yaw_target_angle = yaw_motor_state.ecd_angle;
-        if (pitch_target_angle + pitch_angle_delta > 13.0f) // mechanical limit
+        float pitch_target_angle = pitch_motor_state->angle, yaw_target_angle = yaw_motor_state.angle;
+        if (pitch_target_angle + pitch_angle_delta > 0.0f) // mechanical limit
         {
-            pitch_target_angle = 13.0f;
-        }else if (pitch_target_angle + pitch_angle_delta < -30.0f)
+            pitch_target_angle = 0.0f;
+        }else if (pitch_target_angle + pitch_angle_delta < -49.0f)
         {
-            pitch_target_angle = -30.0f;
+            pitch_target_angle = -49.0f;
         }else
         {
-            pitch_target_angle = pitch_motor_state->ecd_angle + pitch_angle_delta;
+            pitch_target_angle = pitch_motor_state->angle + pitch_angle_delta;
         }
         yaw_target_angle += yaw_angle_delta;
         yaw_target_angle = fmod(yaw_target_angle, 360.0f);
