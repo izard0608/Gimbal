@@ -160,3 +160,5 @@
 - yaw部分全部完成，可以正常工作
 ### Pending
 - pitch前馈
+## Update 2025.12.1
+- 除pitch部分全部完成，pitch因电机问题暂时无法推进
